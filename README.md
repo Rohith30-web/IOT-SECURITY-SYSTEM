@@ -116,3 +116,4 @@ This Arduino-based security system utilizes two **Arduino Uno boards** as its ce
  The Arduino code manages a security system's display and communication. It initializes an LCD and sets up I2C communication to act as a slave device. A `receiveEvent` function captures data sent from another Arduino, storing it in a variable `x`. The main loop then uses `x` to determine the system's state: if `x` is 0, it displays "Welcome HOME"; otherwise, it shows "INVALID CREDENTIALS," effectively reflecting the authentication status received from the master device.
 
 # CIRCUIT:
+<img width="999" height="750" alt="Image" src="https://github.com/user-attachments/assets/054da028-4101-410d-8839-d5dc90a0d049" />
