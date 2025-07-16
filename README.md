@@ -13,30 +13,13 @@
 **MENTOR:** NEELA SANTOSH
 
 # DESCRIPTION
+**WORKING:**
+This Arduino-based security system operates through a clear sequence of events. Initially, the user interacts with a keypad connected to one Arduino to enter a secret passcode. This Arduino processes the input, comparing it to a stored correct code.
 
-The system appears to be a dual-zone security setup, or perhaps a master-slave configuration, where one Arduino (top right) handles user input and initial authentication, and the other Arduino (bottom left) manages output displays and potentially other security functions.
+The result of this authentication (whether the code is correct or incorrect) is then transmitted to the second Arduino via I2C communication. This second Arduino, upon receiving the status, controls a 16x2 LCD display. If the code is valid, the LCD will display a "Welcome" message. Conversely, an "INVALID CREDENTIALS" message appears if the code is wrong. Simultaneously, a buzzer on the first Arduino provides audible feedback, likely sounding an alert for incorrect entries, reinforcing the visual cues on the LCD. This division of labor between the two Arduinos allows for modularity and efficient handling of different system functions.
 
-**Components and Their Roles:**
-Top Arduino Uno: This Arduino is connected to a keypad, a simple LED indicator, and what looks like a light sensor or a simple switch. It's likely responsible for:
-Reading input from the keypad for password entry.Communicating with the second Arduino.Potentially triggering an alarm (the small speaker/buzzer at the top left is connected to this Arduino).
-
-The breadboard connected to this Arduino also has a potentiometer, which could be for adjusting sensitivity or other parameters.
-
-A simple button on the breadboard might be for resetting or a different input.
-
-Keypad: This 4x4 matrix keypad is the primary input device for the user to enter a passcode.
-
-Bottom Arduino Uno: This Arduino is connected to an LCD display and likely receives commands or authentication status from the top Arduino. It's responsible for:Displaying messages like "WELCOME," "INVALID," or "ACCESS GRANTED/DENIED" on the LCD.
-
-Potentially controlling other output devices not explicitly shown but implied by a security system.
-
-LCD Display: A 16x2 character LCD display, used to provide feedback to the user regarding the system's status, such as "WELCOME," "INVALID," or "ACCESS GRANTED."
-
-Buzzer/Speaker: The small black component at the top left is a buzzer, which would likely be used to provide audible feedback or an alarm sound, possibly when an incorrect code is entered or an intrusion is detected.
-
-Breadboards: Used for easy prototyping and connecting components without soldering.
-
-Wiring: Color-coded wires connect the various components to the Arduino boards, establishing the electrical pathways for signals and power.
+**Components:**
+This Arduino-based security system utilizes two **Arduino Uno boards** as its central controllers. User input is handled by a **keypad** for code entry, while a **16x2 LCD display** provides clear visual feedback on the system's status. An **audible buzzer** delivers alerts and confirmations, supplemented by an **LED** for visual indication. For prototyping and circuit flexibility, the components are wired together on **breadboards** using **jumper wires**. Additional elements like a **potentiometer** (for adjustments) and a **push button** (for auxiliary input) contribute to the system's interactive functionality.
 
 **CODE:**
 **#include <LiquidCrystal.h>**
@@ -48,45 +31,88 @@ Wiring: Color-coded wires connect the various components to the Arduino boards, 
 **LiquidCrystal lcd(12, 11, 5, 4, 3, 2);**
 
 **void receiveEvent(int howMany)**
- {
-  int x = Wire.read(); 
-  z=x;
- }
 
-void setup() 
- {
-  pinMode(10,OUTPUT);
-  pinMode(9,OUTPUT);
-  pinMode(8,OUTPUT);
-  pinMode(7,OUTPUT);
-  Wire.begin(4);                
-  Wire.onReceive(receiveEvent); 
-  lcd.begin(16, 2);  
- }
+ **{**
+ 
+  **int x = Wire.read();**
+  
+  **z=x;**
+  
+ **}**
 
-void loop() 
- {
-  digitalWrite(9,HIGH);
-  digitalWrite(8,HIGH);
-  lcd.clear();
-  while (z==50)
-   { 
-    digitalWrite(9,LOW);
-    digitalWrite(8,HIGH);
-    lcd.setCursor(0, 0);
-    lcd.print("WELCOME");
-    lcd.setCursor(0, 1);
-    lcd.print("HOME");
-    delay(500);
-   }
-  while (z==60)
-   { 
-    digitalWrite(9,HIGH);
-    digitalWrite(8,LOW);
-    lcd.setCursor(0, 0);
-    lcd.print("INVALID");
-    lcd.setCursor(0, 1);
-    lcd.print("CREDENTIALS");
-    delay(500);
-   }
- }
+**void setup()**
+
+ **{**
+ 
+  **pinMode(10,OUTPUT);**
+  
+  **pinMode(9,OUTPUT);**
+  
+  **pinMode(8,OUTPUT);**
+  
+  **pinMode(7,OUTPUT);**
+  
+  **Wire.begin(4);**      
+  
+  **Wire.onReceive(receiveEvent);**
+  
+  **lcd.begin(16, 2);**
+  
+**}**
+
+**void loop()**
+
+ **{**
+ 
+  **digitalWrite(9,HIGH);**
+  
+  **digitalWrite(8,HIGH);**
+  
+  **lcd.clear();**
+  
+  **while (z==50)**
+  
+   **{**
+   
+   **digitalWrite(9,LOW);**
+    
+   **digitalWrite(8,HIGH);**
+   
+   **lcd.setCursor(0, 0);**
+    
+   **lcd.print("WELCOME");**
+    
+   **lcd.setCursor(0, 1);**
+    
+   **lcd.print("HOME");**
+        
+  **delay(500);**
+
+  **}**
+  
+  **while (z==60)**
+  
+   **{**
+   
+   **digitalWrite(9,HIGH);**
+   
+   **digitalWrite(8,LOW);**
+    
+   **lcd.setCursor(0, 0);**
+    
+   **lcd.print("INVALID");**
+    
+   **lcd.setCursor(0, 1);**
+    
+   **lcd.print("CREDENTIALS");**
+    
+   **delay(500);**
+    
+   **}**
+   
+ **}**
+ 
+ # OVERVIEW OF CODE:
+ The Arduino code manages a security system's display and communication. It initializes an LCD and sets up I2C communication to act as a slave device. A `receiveEvent` function captures data sent from another Arduino, storing it in a variable `x`. The main loop then uses `x` to determine the system's state: if `x` is 0, it displays "Welcome HOME"; otherwise, it shows "INVALID CREDENTIALS," effectively reflecting the authentication status received from the master device.
+
+# CIRCUIT:
