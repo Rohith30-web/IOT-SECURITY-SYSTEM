@@ -117,3 +117,5 @@ This Arduino-based security system utilizes two **Arduino Uno boards** as its ce
 
 # CIRCUIT:
 <img width="999" height="750" alt="Image" src="https://github.com/user-attachments/assets/054da028-4101-410d-8839-d5dc90a0d049" />
+
+# OUTPUT:
